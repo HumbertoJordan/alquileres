@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alquileres</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        a { margin-right: 10px; text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+    <h1>Lista de Alquileres</h1>
+    <a href="/alquileres/nuevo">Nuevo Alquiler</a>
+    <a href="/dashboard">Volver al Dashboard</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Cliente ID</th>
+                <th>Propiedad ID</th>
+                <th>Precio</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="alquiler : ${alquileres}">
+                <td th:text="${alquiler.id}"></td>
+                <td th:text="${alquiler.fechaInicio}"></td>
+                <td th:text="${alquiler.fechaFin}"></td>
+                <td th:text="${alquiler.clienteId}"></td>
+                <td th:text="${alquiler.propiedadesId}"></td>
+                <td th:text="${alquiler.precio}"></td>
+                <td th:text="${alquiler.activo}"></td>
+                <td>
+                    <a th:href="@{/alquileres/editar/{id}(id=${alquiler.id})}">Editar</a>
+                    <a th:href="@{/alquileres/eliminar/{id}(id=${alquiler.id})}" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propiedades</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-building"></i> Listado de Propiedades</h2>
+            <a th:href="@{/propiedades/nuevo}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nueva Propiedad
+            </a>
+        </div>
+
+        <!-- Tabla de Propiedades -->
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Titulo</th>
+                                <th>Dirección</th>
+                                <th>Precio Alquiler</th>
+                                <th>Imagen</th>
+                                <!-- <th>Capacidad</th> -->
+                                <th>Disponible</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="propiedad : ${propiedades}">
+                                <td th:text="${propiedad.id}">1</td>
+                                <td th:text="${propiedad.titulo}">Casa La Pileta</td>
+                                <td th:text="${propiedad.direccion}">Av. Principal 123</td>
+                                <td th:text="'$ ' + ${propiedad.precioAlquiler}">$5000</td>
+                                <td>
+                                    <img th:src="${propiedad.imagenUrl}" class="img-thumbnail"
+                                        style="width:100px;height:auto"
+                                        onerror="this.src='/img/propiedades/default.jpg'">
+                                </td>
+                                <!-- <td th:text="${propiedad.capacidad} + ' personas'">6 personas</td> -->
+                                <td>
+                                    <span th:if="${propiedad.disponible}" class="badge bg-success">Disponible</span>
+                                    <span th:unless="${propiedad.disponible}" class="badge bg-danger">No
+                                        Disponible</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/propiedades/editar/{id}(id=${propiedad.id})}"
+                                        class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a th:href="@{/propiedades/eliminar/{id}(id=${propiedad.id})}"
+                                        class="btn btn-sm btn-danger"
+                                        onclick="return confirm('¿Está seguro de eliminar esta propiedad?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(propiedades)}">
+                                <td colspan="7" class="text-center text-muted">
+                                    <i class="fas fa-info-circle"></i> No hay propiedades registradas
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
