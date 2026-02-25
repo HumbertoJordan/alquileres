@@ -152,7 +152,7 @@ alquiler-casas/
 
 ## 👤 Autor
 
-Tu Nombre - [tu-email@ejemplo.com](mailto:tu-email@ejemplo.com)
+Humberto - jordanhmza@gmail.com
 
 ## 📄 Licencia
 
