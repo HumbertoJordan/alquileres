@@ -48,33 +48,44 @@
 
     <div class="container pb-5">
 
-        <!-- Accesos rápidos -->
-        <h4 class="mb-4 text-muted"><i class="fas fa-th-large"></i> Acceso rápido</h4>
-        <div class="row g-4 mb-5">
-
-            <div class="col-md-6">
-                <div class="card stat-card shadow-sm h-100">
-                    <div class="card-body text-center py-4">
-                        <div class="stat-icon text-primary mb-2"><i class="fas fa-building"></i></div>
-                        <h5 class="card-title fw-bold">Propiedades</h5>
-                        <p class="card-text text-muted">Consulta las propiedades disponibles en el sistema.</p>
-                        <a th:href="@{/propiedades}" class="btn btn-primary mt-2">
-                            <i class="fas fa-arrow-right"></i> Ver Propiedades
-                        </a>
-                    </div>
+        <!-- Propiedades disponibles -->
+<h4 class="mb-4 text-muted"><i class="fas fa-building"></i> Propiedades disponibles</h4>
+<div class="row g-4 mb-5">
+    <div th:each="propiedad : ${propiedades}" class="col-md-4">
+        <div class="card stat-card shadow-sm h-100">
+            <img th:src="${propiedad.imagenUrl}" class="card-img-top"
+                 style="height: 200px; object-fit: cover;"
+                 onerror="this.onerror=null; this.src='/img/propiedades/default.jpg'">
+            <div class="card-body">
+                <h5 class="card-title fw-bold" th:text="${propiedad.titulo}"></h5>
+                <p class="text-muted mb-1">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span th:text="${propiedad.ciudad}"></span>
+                </p>
+                <p class="text-muted mb-2">
+                    <i class="fas fa-map"></i>
+                    <span th:text="${propiedad.direccion}"></span>
+                </p>
+                <p class="fw-bold text-primary mb-3">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span th:text="'$ ' + ${propiedad.precioAlquiler} + ' / noche'"></span>
+                </p>
+                <span th:if="${propiedad.disponible}" class="badge bg-success mb-2">Disponible</span>
+                <span th:unless="${propiedad.disponible}" class="badge bg-danger mb-2">No disponible</span>
+                <div class="mt-2">
+                    <a th:href="@{/propiedades/ver/{id}(id=${propiedad.id})}" class="btn btn-primary btn-sm w-100">
+                        <i class="fas fa-eye"></i> Ver detalle
+                    </a>
                 </div>
             </div>
-
         </div>
-
-        <div class="card shadow-sm border-0">
-            <div class="card-header bg-dark text-white">
-                <i class="fas fa-info-circle"></i> Panel de usuario
-            </div>
-            <div class="card-body">
-                <p class="mb-0">Como usuario normal solo puedes ver las propiedades disponibles. Las opciones administrativas no aparecen en este panel.</p>
-            </div>
+    </div>
+    <div th:if="${#lists.isEmpty(propiedades)}" class="col-12">
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> No hay propiedades registradas aún.
         </div>
+    </div>
+</div>
 
     </div>
 
