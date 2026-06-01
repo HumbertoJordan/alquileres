@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alquiler.alquileres.dto.ReservaDTO;
@@ -15,57 +14,41 @@ import com.alquiler.alquileres.repository.ReservaRepository;
 @Service
 public class ReservaService {
     
-    @Autowired
-    private ReservaRepository reservaRepository;
+    private final ReservaRepository reservaRepository;
+    private final ReservaMapper reservaMapper;
 
-    @Autowired
-    private ReservaMapper reservaMapper;
-
-    // Buscar todo
+    public ReservaService(ReservaRepository reservaRepository, ReservaMapper reservaMapper) {
+        this.reservaRepository = reservaRepository;
+        this.reservaMapper = reservaMapper;
+    }
 
     public List<ReservaDTO> findAll() {
         return reservaRepository.findAll().stream()
-        .map(reservaMapper::toDto)
-        .collect(Collectors.toList());
-        
-    }
-    
-    // Buscar x 1
-    @SuppressWarnings("null")
-    public Optional<ReservaDTO> findById(Long id) {
-        return reservaRepository.findById(id)
-        .map(reservaMapper::toDto);        
+                .map(reservaMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    // Guardar Reserva
-    @SuppressWarnings("null")
+    public Optional<ReservaDTO> findById(Long id) {
+        return reservaRepository.findById(id).map(reservaMapper::toDto);
+    }
+
     public ReservaDTO save(ReservaDTO reservaDTO) {
         Reserva reserva = reservaMapper.toEntity(reservaDTO);
-        Reserva savedReserva = reservaRepository.save(reserva);
-        return reservaMapper.toDto(savedReserva);
-        
+        Reserva saved = reservaRepository.save(reserva);
+        return reservaMapper.toDto(saved);
     }
 
-    // Actualizar Reserva
-    @SuppressWarnings("null")
     public Optional<ReservaDTO> update(Long id, ReservaDTO reservaDTO) {
         if (reservaRepository.existsById(id)) {
             reservaDTO.setId(id);
             Reserva reserva = reservaMapper.toEntity(reservaDTO);
-            Reserva updatedReserva = reservaRepository.save(reserva);
-            return Optional.of(reservaMapper.toDto(updatedReserva));
+            Reserva updated = reservaRepository.save(reserva);
+            return Optional.of(reservaMapper.toDto(updated));
         }
         return Optional.empty();
     }
 
-    // Eliminar Reserva
-    @SuppressWarnings("null")
-    public boolean deleteById(Long id) {
-        if (reservaRepository.existsById(id)) {
-            reservaRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public void deleteById(Long id) {
+        reservaRepository.deleteById(id);
     }
-    
 }

@@ -50,10 +50,13 @@ public class SecurityConfig {
                 // Rutas públicas
                 .requestMatchers("/", "/login", "/error").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/images/**", "/webjars/**").permitAll()
-                .requestMatchers("/api/**").permitAll() // API pública por ahora
+                .requestMatchers("/api/propiedades/**").permitAll()
+                .requestMatchers("/api/clientes/**", "/api/reservas/**").hasRole("ADMIN")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/clientes/**", "/reservas/**").hasRole("ADMIN")
                 
-                // Rutas que requieren autenticación
-                .requestMatchers("/propiedades/**", "/clientes/**", "/reservas/**", "/dashboard").authenticated()
+                // Rutas que requieren autenticación para usuarios normales
+                .requestMatchers("/propiedades/**", "/dashboard").authenticated()
                 
                 // Cualquier otra petición requiere autenticación
                 .anyRequest().authenticated()
@@ -73,7 +76,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             .exceptionHandling(ex -> ex
-                .accessDeniedPage("/error")
+                .accessDeniedPage("/login")
             )
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/api/**")
