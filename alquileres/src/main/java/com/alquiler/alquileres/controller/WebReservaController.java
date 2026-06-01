@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alquiler.alquileres.dto.ReservaDTO;
+import com.alquiler.alquileres.model.Cliente;
+import com.alquiler.alquileres.dto.PropiedadDTO;
+import com.alquiler.alquileres.service.ClienteService;
+import com.alquiler.alquileres.service.PropiedadService;
 import com.alquiler.alquileres.service.ReservaService;
 
 @Controller
@@ -17,9 +21,13 @@ import com.alquiler.alquileres.service.ReservaService;
 public class WebReservaController {
 
     private final ReservaService service;
+    private final ClienteService clienteService;
+    private final PropiedadService propiedadService;
 
-    public WebReservaController(ReservaService service) {
+    public WebReservaController(ReservaService service, ClienteService clienteService, PropiedadService propiedadService) {
         this.service = service;
+        this.clienteService = clienteService;
+        this.propiedadService = propiedadService;
     }
 
     @GetMapping
@@ -32,6 +40,8 @@ public class WebReservaController {
     @GetMapping("/nuevo")
     public String formularioNuevo(Model model) {
         model.addAttribute("reserva", new ReservaDTO());
+        model.addAttribute("clientes", clienteService.findAll());
+        model.addAttribute("propiedades", propiedadService.findAll());
         return "reservas/form";
     }
 
@@ -47,6 +57,8 @@ public class WebReservaController {
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
         model.addAttribute("reserva", reserva);
         model.addAttribute("id", id);
+        model.addAttribute("clientes", clienteService.findAll());
+        model.addAttribute("propiedades", propiedadService.findAll());
         return "reservas/form";
     }
 

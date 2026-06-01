@@ -1,49 +1,76 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Alquileres</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        a { margin-right: 10px; text-decoration: none; color: blue; }
-    </style>
+    <title>Alquileres</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Lista de Alquileres</h1>
-    <a href="/alquileres/nuevo">Nuevo Alquiler</a>
-    <a href="/dashboard">Volver al Dashboard</a>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Fecha Inicio</th>
-                <th>Fecha Fin</th>
-                <th>Cliente ID</th>
-                <th>Propiedad ID</th>
-                <th>Precio</th>
-                <th>Activo</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="alquiler : ${alquileres}">
-                <td th:text="${alquiler.id}"></td>
-                <td th:text="${alquiler.fechaInicio}"></td>
-                <td th:text="${alquiler.fechaFin}"></td>
-                <td th:text="${alquiler.clienteId}"></td>
-                <td th:text="${alquiler.propiedadesId}"></td>
-                <td th:text="${alquiler.precio}"></td>
-                <td th:text="${alquiler.activo}"></td>
-                <td>
-                    <a th:href="@{/alquileres/editar/{id}(id=${alquiler.id})}">Editar</a>
-                    <a th:href="@{/alquileres/eliminar/{id}(id=${alquiler.id})}" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-calendar-alt"></i> Listado de Alquileres</h2>
+            <a th:href="@{/alquileres/nuevo}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nuevo Alquiler
+            </a>
+        </div>
+
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Cliente ID</th>
+                                <th>Propiedad ID</th>
+                                <th>Precio</th>
+                                <th>Activo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="alquiler : ${alquileres}">
+                                <td th:text="${alquiler.id}"></td>
+                                <td th:text="${alquiler.fechaInicio}"></td>
+                                <td th:text="${alquiler.fechaFin}"></td>
+                                <td th:text="${alquiler.clienteId}"></td>
+                                <td th:text="${alquiler.propiedadesId}"></td>
+                                <td th:text="'$' + ${alquiler.precio}"></td>
+                                <td>
+                                    <span th:if="${alquiler.activo}" class="badge bg-success">Activo</span>
+                                    <span th:unless="${alquiler.activo}" class="badge bg-secondary">Inactivo</span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/alquileres/editar/{id}(id=${alquiler.id})}" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a th:href="@{/alquileres/eliminar/{id}(id=${alquiler.id})}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('¿Está seguro de eliminar este alquiler?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(alquileres)}">
+                                <td colspan="8" class="text-center text-muted">
+                                    <i class="fas fa-info-circle"></i> No hay alquileres registrados
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

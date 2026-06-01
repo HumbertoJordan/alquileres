@@ -27,27 +27,13 @@ public class Propiedades {
     @Column(name = "imagen_url", length = 200)
     private String imagenUrl;
     
-    @Column(nullable = false,length = 60)    
+    @Column(nullable = false, length = 60)    
     private String ciudad;
 
     private boolean disponible;
     private boolean activo;
 
     public Propiedades() {}
-
-    public Propiedades(Long id, String titulo, String descripcion, String direccion,
-                       BigDecimal precioAlquiler, String imagenUrl, String ciudad,
-                       boolean disponible, boolean activo) {
-        this.id = id;
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.direccion = direccion;
-        this.precioAlquiler = precioAlquiler;
-        this.imagenUrl = imagenUrl;
-        this.ciudad = ciudad;
-        this.disponible = disponible;
-        this.activo = activo;
-    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -66,6 +52,9 @@ public class Propiedades {
 
     public String getImagenUrl() { return imagenUrl; }
     public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+
+    public String getCiudad() { return ciudad; }
+    public void setCiudad(String ciudad) { this.ciudad = ciudad; }
 
     public boolean isDisponible() { return disponible; }
     public void setDisponible(boolean disponible) { this.disponible = disponible; }

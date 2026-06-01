@@ -19,7 +19,7 @@ import com.alquiler.alquileres.service.PropiedadService;
 public class PropiedadController {
 
     private final PropiedadService service;
-    private static final String UPLOAD_DIR = "src/main/resources/static/img/propiedades/";
+    private static final String UPLOAD_DIR = "E:/FinalSistemaAlquiler/uploads/propiedades/";
 
     public PropiedadController(PropiedadService service) {
         this.service = service;
@@ -60,7 +60,7 @@ public class PropiedadController {
             Files.createDirectories(ruta.getParent());
             Files.write(ruta, file.getBytes());
 
-            propiedad.setImagenUrl("/img/propiedades/" + nombre);
+            propiedad.setImagenUrl("/uploads/propiedades/" + nombre);
             service.save(propiedad);
 
             return ResponseEntity.ok("Imagen subida correctamente");

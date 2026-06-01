@@ -19,9 +19,6 @@ public class PropiedadDTO {
 
     @NotBlank
     private String ciudad;
-
-    @NotBlank
-    private String provincia;
     
     @NotNull
     private BigDecimal precioAlquiler;
@@ -34,8 +31,8 @@ public class PropiedadDTO {
 
     public PropiedadDTO() {}
     
-    public Long getId() { return id;}
-    public void setId(Long id) { this.id = id;}
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
@@ -48,10 +45,6 @@ public class PropiedadDTO {
 
     public String getCiudad() { return ciudad; }
     public void setCiudad(String ciudad) { this.ciudad = ciudad; }
-
-    public String getProvincia() {return provincia; }
-
-    public void setProvincia(String provincia) { this.provincia = provincia;}
 
     public BigDecimal getPrecioAlquiler() { return precioAlquiler; }
     public void setPrecioAlquiler(BigDecimal precioAlquiler) { this.precioAlquiler = precioAlquiler; }
